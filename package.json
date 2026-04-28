@@ -26,10 +26,32 @@
     "type": "git",
     "url": "git+https://github.com/NathanMGalante/javascript-utils.git"
   },
-  "license": "(MIT)",
+  "license": "MIT",
   "author": "Nathan Moreno Galante",
   "type": "module",
   "main": "index.js",
+  "exports": {
+    ".": {
+      "import": "./index.js",
+      "require": "./index.js"
+    }
+  },
+  "files": [
+    "index.js",
+    "completer-utils.js",
+    "debounce-utils.js",
+    "delay-utils.js",
+    "duration-utils.js",
+    "file-utils.js",
+    "regex-utils.js",
+    "status_codes-utils.js",
+    "system-utils.js",
+    "timer-utils.js",
+    "formatters/",
+    "validations/",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest"
   },
