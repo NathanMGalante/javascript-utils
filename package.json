@@ -1,9 +1,9 @@
 {
-  "name": "n-js-utils",
+  "name": "@nathanmgalante/n-js-utils",
   "version": "1.0.0",
   "description": "A collection of lightweight JS utilities for file handling, Brazilian document validation, and more.",
   "keywords": [
-    "n-js-utils",
+    "@nathanmgalante/n-js-utils",
     "utils",
     "javascript",
     "brazil",
@@ -19,6 +19,9 @@
     "http-status-codes"
   ],
   "homepage": "https://github.com/NathanMGalante/javascript-utils#readme",
+  "publishConfig": {
+    "access": "public"
+  },
   "bugs": {
     "url": "https://github.com/NathanMGalante/javascript-utils/issues"
   },

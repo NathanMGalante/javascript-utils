@@ -1,6 +1,6 @@
-# n-js-utils
+# @nathanmgalante/n-js-utils
 
-[![npm version](https://badge.fury.io/js/n-js-utils.svg)](https://badge.fury.io/js/n-js-utils)
+[![npm version](https://badge.fury.io/js/%40nathanmgalante%2Fn-js-utils.svg)](https://badge.fury.io/js/@nathanmgalante/n-js-utils)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 A lightweight and comprehensive JavaScript utility library with essential functions for file handling, Brazilian document validation, formatters, timers, and more.
@@ -8,7 +8,7 @@ A lightweight and comprehensive JavaScript utility library with essential functi
 ## 📦 Installation
 
 ```bash
-npm install n-js-utils
+npm install @nathanmgalante/n-js-utils
 ```
 
 ## 🚀 Quick Start
@@ -20,7 +20,7 @@ import {
   debounce, 
   delay, 
   HTTP_STATUS_CODES 
-} from 'n-js-utils';
+} from '@nathanmgalante/n-js-utils';
 
 // Validate Brazilian CPF
 if (isCpf('123.456.789-09')) {
@@ -82,7 +82,7 @@ console.log(HTTP_STATUS_CODES.OK); // 200
 ### Document Validation
 
 ```javascript
-import { isCpf, isCnpj, isDocument, formatCpf, formatCnpj, formatDocument } from 'n-js-utils';
+import { isCpf, isCnpj, isDocument, formatCpf, formatCnpj, formatDocument } from '@nathanmgalante/n-js-utils';
 
 // Validation
 isCpf('123.456.789-09');     // boolean
@@ -98,7 +98,7 @@ formatDocument('12345678909');       // '123.456.789-09'
 ### Phone Formatting
 
 ```javascript
-import { formatPhone, formatPhoneWithContryCode, onlyNumbers } from 'n-js-utils';
+import { formatPhone, formatPhoneWithContryCode, onlyNumbers } from '@nathanmgalante/n-js-utils';
 
 formatPhone('11987654321');                    // '(11) 98765-4321'
 formatPhoneWithContryCode('11987654321');      // '+55 (11) 98765-4321'
@@ -114,7 +114,7 @@ import {
   assembleFile, 
   fileToUrl,
   getMimeTypeByExtension 
-} from 'n-js-utils';
+} from '@nathanmgalante/n-js-utils';
 
 // File validation and processing
 ensureFileProperties(file);           // Validates file properties
@@ -127,8 +127,8 @@ getMimeTypeByExtension('.jpg');       // 'image/jpeg'
 ### Timing Utilities
 
 ```javascript
-import { debounce, delay, timer } from 'n-js-utils';
-import { DURATION_1_SECOND, DURATION_5_MINUTES } from 'n-js-utils';
+import { debounce, delay, timer } from '@nathanmgalante/n-js-utils';
+import { DURATION_1_SECOND, DURATION_5_MINUTES } from '@nathanmgalante/n-js-utils';
 
 // Debounce function calls
 const debouncedFn = debounce(myFunction, 300);
@@ -147,7 +147,7 @@ console.log(DURATION_5_MINUTES);   // 300000
 ### System Detection
 
 ```javascript
-import { isMobile, isAndroid, isIos, FACING_MODES, redirectToStore } from 'n-js-utils';
+import { isMobile, isAndroid, isIos, FACING_MODES, redirectToStore } from '@nathanmgalante/n-js-utils';
 
 if (isMobile()) {
   console.log('Mobile device detected');
@@ -167,7 +167,7 @@ console.log(FACING_MODES.ENVIRONMENT); // 'environment'
 ### HTTP Status Codes
 
 ```javascript
-import { HTTP_STATUS_CODES } from 'n-js-utils';
+import { HTTP_STATUS_CODES } from '@nathanmgalante/n-js-utils';
 
 console.log(HTTP_STATUS_CODES.OK);           // 200
 console.log(HTTP_STATUS_CODES.NOT_FOUND);    // 404
@@ -192,7 +192,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## 🔗 Links
 
-- **NPM**: https://www.npmjs.com/package/n-js-utils
+- **NPM**: https://www.npmjs.com/package/@nathanmgalante/n-js-utils
 - **GitHub**: https://github.com/NathanMGalante/javascript-utils
 - **Issues**: https://github.com/NathanMGalante/javascript-utils/issues
 
@@ -202,4 +202,4 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 - **License**: MIT
 - **Author**: Nathan Moreno Galante
 - **Type**: ES Module
-- **Keywords**: utils, javascript, brazil, brazilian-utils, cpf, cnpj, validation, formatter, phone-mask, file-handling, base64, mime-types, http-status-codes
+- **Name**: @nathanmgalante/n-js-utils
