@@ -1,4 +1,4 @@
-import { onlyNumbers } from './n_string_format.js'
+import { onlyNumbers } from './formatters/n_string_formatter.js'
 
 /**
  * Calculates the CPF verification digit based on the Modulo 11 algorithm.
