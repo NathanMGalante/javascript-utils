@@ -1,5 +1,5 @@
-import { isCnpj, isCpf, isDocument } from './n_document_validation.js'
-import isEmail from './n_email_validation.js'
+import { isCnpj, isCpf, isDocument } from './document-validation-utils.js'
+import isEmail from './email-validation-utils.js'
 
 /**
  * Checks if a given value is null, undefined, empty, or whitespace.

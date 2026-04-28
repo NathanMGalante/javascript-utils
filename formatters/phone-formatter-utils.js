@@ -1,4 +1,4 @@
-import { ALL_NOT_NUMBERS } from '../n_regex.js'
+import { ALL_NOT_NUMBERS } from '../regex-utils.js'
 
 /**
  * Formats a phone number assuming it contains a country code, area code, and number.

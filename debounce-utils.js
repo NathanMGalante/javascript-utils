@@ -1,6 +1,6 @@
-import { completer } from './n_completer.js'
-import { DURATION_300_MILLISECONDS } from './n_duration.js'
-import { timer } from './n_timer.js'
+import { completer } from './completer-utils.js'
+import { DURATION_300_MILLISECONDS } from './duration-utils.js'
+import { timer } from './timer-utils.js'
 
 /**
  * Registry to track active debounce operations by their unique keys.

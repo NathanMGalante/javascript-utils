@@ -1,5 +1,5 @@
-import isCnpj from "./n_cnpj_validation";
-import isCpf from "./n_cpf_validation";
+import isCnpj from "./cnpj-validation-utils";
+import isCpf from "./cpf-validation-utils";
 
 /**
  * Validates whether a given string or number is a valid Brazilian document 
