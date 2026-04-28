@@ -1,4 +1,4 @@
-import { ALL_NOT_NUMBERS } from '../../n_regex.js'
+import { ALL_NOT_NUMBERS } from '../n_regex.js'
 
 /**
  * Removes all non-digit characters from a string or number.

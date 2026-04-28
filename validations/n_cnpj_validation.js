@@ -1,4 +1,4 @@
-import { onlyNumbers } from './formatters/n_string_formatter.js'
+import { onlyNumbers } from '../formatters/n_string_formatter.js'
 
 /**
  * Calculates a single verification digit for a CNPJ.
