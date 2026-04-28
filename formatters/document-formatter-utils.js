@@ -1,6 +1,6 @@
+import isCnpj from '../validations/cnpj-validation-utils.js'
+import isCpf from '../validations/cpf-validation-utils.js'
 import { onlyNumbers } from './string-formatter-utils.js'
-import { isCpf } from '../validations/cpf-validation-utils.js'
-import { isCnpj } from '../validations/cnpj-validation-utils.js'
 
 /**
  * Formats a valid CPF string by adding dots and a hyphen.
