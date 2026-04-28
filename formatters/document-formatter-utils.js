@@ -1,4 +1,4 @@
-import { onlyNumbers } from './n_string_format.js'
+import { onlyNumbers } from './string-formatter-utils.js'
 import { isCpf } from '../validations/cpf-validation-utils.js'
 import { isCnpj } from '../validations/cnpj-validation-utils.js'
 

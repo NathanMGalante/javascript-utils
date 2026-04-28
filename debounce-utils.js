@@ -15,8 +15,8 @@ let debounceMap = {}
  */
 const debounceItem = () => ({
   id: 0,
-  completer: new completer(),
-  timer: new timer(),
+  completer: completer(),
+  timer: timer(),
 })
 
 /**
@@ -37,7 +37,7 @@ export const debounce = async (
     debounceMap[key].timer.cancel()
     debounceMap[key].id++
   } else {
-    debounceMap[key] = new debounceItem()
+    debounceMap[key] = debounceItem()
   }
 
   let id = debounceMap[key].id
