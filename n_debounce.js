@@ -1,7 +1,6 @@
-import { timer } from './n_timer.js'
 import { completer } from './n_completer.js'
-
-const DEFAULT_TIME = 300
+import { DURATION_300_MILLISECONDS } from './n_duration.js'
+import { timer } from './n_timer.js'
 
 /**
  * Registry to track active debounce operations by their unique keys.
@@ -30,8 +29,8 @@ const debounceItem = () => ({
  */
 export const debounce = async (
   key = '',
-  callback = () => {},
-  duration = DEFAULT_TIME
+  callback = () => { },
+  duration = DURATION_300_MILLISECONDS
 ) => {
   // If the key exists, reset the timer and increment ID to invalidate previous calls
   if (Object.keys(debounceMap).includes(key)) {
