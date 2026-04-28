@@ -1,0 +1,36 @@
+{
+  "name": "n-js-utils",
+  "version": "1.0.0",
+  "description": "A collection of lightweight JS utilities for file handling, Brazilian document validation, and more.",
+  "keywords": [
+    "n-js-utils",
+    "utils",
+    "javascript",
+    "brazil",
+    "brazilian-utils",
+    "cpf",
+    "cnpj",
+    "validation",
+    "formatter",
+    "phone-mask",
+    "file-handling",
+    "base64",
+    "mime-types",
+    "http-status-codes"
+  ],
+  "homepage": "https://github.com/NathanMGalante/javascript-utils#readme",
+  "bugs": {
+    "url": "https://github.com/NathanMGalante/javascript-utils/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NathanMGalante/javascript-utils.git"
+  },
+  "license": "(MIT)",
+  "author": "Nathan Moreno Galante",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
