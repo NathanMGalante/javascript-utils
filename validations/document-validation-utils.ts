@@ -9,7 +9,6 @@ import isCpf from "./cpf-validation-utils";
  * * @param {string|number} value - The raw document value to be validated.
  * @returns {boolean} True if the value passes either CPF or CNPJ validation.
  */
-const isDocument = (value) => isCpf(value) || isCnpj(value)
+const isDocument = (value: string): boolean => isCpf(value) || isCnpj(value)
 
 export { isCnpj, isCpf, isDocument };
-
