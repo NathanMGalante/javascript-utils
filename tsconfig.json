@@ -12,7 +12,9 @@
         ]
     },
     "include": [
-        "src/**/*",
-        "tests/**/*"
+        "*.ts",
+        "formatters/**/*.ts",
+        "validations/**/*.ts",
+        "tests/**/*.ts"
     ]
 }

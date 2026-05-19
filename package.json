@@ -32,24 +32,24 @@
   "license": "MIT",
   "author": "Nathan Moreno Galante",
   "type": "module",
-  "main": "index.js",
+  "main": "index.ts",
   "exports": {
     ".": {
-      "import": "./index.js",
-      "require": "./index.js"
+      "import": "./index.ts",
+      "require": "./index.ts"
     }
   },
   "files": [
-    "index.js",
-    "completer-utils.js",
-    "debounce-utils.js",
-    "delay-utils.js",
-    "duration-utils.js",
-    "file-utils.js",
-    "regex-utils.js",
-    "status_codes-utils.js",
-    "system-utils.js",
-    "timer-utils.js",
+    "index.ts",
+    "completer-utils.ts",
+    "debounce-utils.ts",
+    "delay-utils.ts",
+    "duration-utils.ts",
+    "file-utils.ts",
+    "regex-utils.ts",
+    "status_codes-utils.ts",
+    "system-utils.ts",
+    "timer-utils.ts",
     "formatters/",
     "validations/",
     "README.md",
