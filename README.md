@@ -271,7 +271,7 @@ const url = fileToUrl(file); // 'blob:https://...'
 
 #### `getMimeTypeByExtension(extension: string): string | false`
 
-Resolves the MIME type for a given extension or file path using the `mime-types` package.
+Resolves the MIME type for a given extension or file path using the `mime` package.
 
 ```typescript
 getMimeTypeByExtension('.jpg');      // 'image/jpeg'
