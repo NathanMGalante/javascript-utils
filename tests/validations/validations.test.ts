@@ -1,116 +1,91 @@
-import { isCnpj, isCpf, isDocument, isEmail, isNullOrEmpty } from "../../validations"
+import { isCnpj, isCpf, isDocument, isEmail, isNullOrEmpty } from "../../validations/index.js";
 
 describe('Validation Utils', () => {
-    describe('CPF Validation', () => {
-        it('should validate correct CPF', () => {
-            expect(isCpf('11144477735')).toBe(true)
-        })
 
-        it('should reject invalid CPF', () => {
-            expect(isCpf('00000000000')).toBe(false)
-        })
+    describe('isCpf', () => {
+        const cases: [any, boolean, string][] = [
+            ['11144477735', true, 'valid unformatted CPF'],
+            ['111.444.777-35', true, 'valid formatted CPF'],
+            ['00000000000', false, 'blocked repeated digits sequence'],
+            ['11111111111', false, 'blocked repeated digits sequence alternative'],
+            ['111', false, 'short digit structure length'],
+            ['1114447773', false, 'missing final verifier digit'],
+            ['abc123xyz45', false, 'alphanumeric noise input'],
+            [null, false, 'null identity pointer value'],
+            [undefined, false, 'undefined identity token value'],
+        ];
 
-        it('should handle formatted CPF', () => {
-            expect(isCpf('111.444.777-35')).toBe(true)
-        })
+        test.each(cases)('should return %p for %s', (input, expected) => {
+            expect(isCpf(input)).toBe(expected);
+        });
+    });
 
-        it('should reject null/undefined', () => {
-            expect(isCpf(null)).toBe(false)
-            expect(isCpf(undefined)).toBe(false)
-        })
+    describe('isCnpj', () => {
+        const cases: [any, boolean, string][] = [
+            ['11222333000181', true, 'valid unformatted CNPJ'],
+            ['11.222.333/0001-81', true, 'valid formatted CNPJ'],
+            ['00000000000000', false, 'blocked sequence of zeroes'],
+            ['11111111111111', false, 'blocked sequence of identical numbers'],
+            ['111', false, 'short string criteria length'],
+            ['abc123xyz45678', false, 'alphanumeric dirty pattern content'],
+            [null, false, 'null structure value reference'],
+            [undefined, false, 'undefined scope initialization'],
+        ];
 
-        it('should reject short CPF', () => {
-            expect(isCpf('111')).toBe(false)
-        })
-    })
+        test.each(cases)('should return %p for %s', (input, expected) => {
+            expect(isCnpj(input)).toBe(expected);
+        });
+    });
 
-    describe('CNPJ Validation', () => {
-        it('should validate correct CNPJ', () => {
-            expect(isCnpj('11222333000181')).toBe(true)
-        })
+    describe('isEmail', () => {
+        const cases: [any, boolean, string][] = [
+            ['test@example.com', true, 'standard secure production email formatting'],
+            ['user@domain.co.uk', true, 'multi-tiered domain postfix extension structure'],
+            ['user+tag@example.com', true, 'alias routing addressing with plus symbol modifier'],
+            ['invalid', false, 'plain text sequence string missing essential tokens'],
+            ['user@', false, 'missing root host target routing network definitions'],
+            ['@domain.com', false, 'missing localized user account routing component'],
+            ['user@domain.', false, 'trailing separator dot symbol without resolution tld'],
+            ['user @domain.com', false, 'illegal space character breaking continuous stream'],
+            [null, false, 'null reference input structure pointer'],
+            [undefined, false, 'undefined value criteria definition boundary'],
+        ];
 
-        it('should reject invalid CNPJ', () => {
-            expect(isCnpj('00000000000000')).toBe(false)
-        })
+        test.each(cases)('should return %p for %s', (input, expected) => {
+            expect(isEmail(input)).toBe(expected);
+        });
+    });
 
-        it('should handle formatted CNPJ', () => {
-            expect(isCnpj('11.222.333/0001-81')).toBe(true)
-        })
+    describe('isNullOrEmpty', () => {
+        const cases: [any, boolean, string][] = [
+            [null, true, 'primitive null value assignment flag'],
+            [undefined, true, 'primitive undefined runtime type initialization'],
+            ['', true, 'strictly empty string length criteria sequence'],
+            ['   ', true, 'string payload containing only blank trailing whitespace blocks'],
+            [[], true, 'instantiated array structure containing zero reference nodes'],
+            [{}, true, 'instantiated object structure missing any hash map keys'],
+            ['hello', false, 'populated alpha text content string array sequence'],
+            [[1, 2, 3], false, 'populated sequential generic index element array object'],
+            [{ a: 1 }, false, 'populated key-value dynamic map object mapping context'],
+        ];
 
-        it('should reject null/undefined', () => {
-            expect(isCnpj(null)).toBe(false)
-            expect(isCnpj(undefined)).toBe(false)
-        })
+        test.each(cases)('should return %p for %s', (input, expected) => {
+            expect(isNullOrEmpty(input)).toBe(expected);
+        });
+    });
 
-        it('should reject short CNPJ', () => {
-            expect(isCnpj('111')).toBe(false)
-        })
-    })
+    describe('isDocument', () => {
+        const cases: [any, boolean, string][] = [
+            ['11144477735', true, 'valid unformatted fallback CPF entity payload'],
+            ['11.222.333/0001-81', true, 'valid complex corporate formatted CNPJ structure'],
+            ['00000000000000', false, 'invalid multi-digit macro block sequence failure'],
+            ['invalid-doc-token', false, 'completely malformed alternative identification string'],
+            [null, false, 'null payload representation standard block'],
+            [undefined, false, 'undefined parameter tracking sequence indicator'],
+        ];
 
-    describe('Email Validation', () => {
-        it('should validate correct email', () => {
-            expect(isEmail('test@example.com')).toBe(true)
-            expect(isEmail('user@domain.co.uk')).toBe(true)
-        })
-
-        it('should reject invalid email', () => {
-            expect(isEmail('invalid')).toBe(false)
-            expect(isEmail('user@')).toBe(false)
-            expect(isEmail('@domain.com')).toBe(false)
-        })
-
-        it('should reject null/undefined', () => {
-            expect(isEmail(null)).toBe(false)
-            expect(isEmail(undefined)).toBe(false)
-        })
-
-        it('should handle emails with plus', () => {
-            expect(isEmail('user+tag@example.com')).toBe(true)
-        })
-    })
-
-    describe('Null or Empty Validation', () => {
-        it('should detect null and undefined', () => {
-            expect(isNullOrEmpty(null)).toBe(true)
-            expect(isNullOrEmpty(undefined)).toBe(true)
-        })
-
-        it('should detect empty strings', () => {
-            expect(isNullOrEmpty('')).toBe(true)
-            expect(isNullOrEmpty('   ')).toBe(true)
-        })
-
-        it('should detect empty arrays', () => {
-            expect(isNullOrEmpty([])).toBe(true)
-        })
-
-        it('should detect empty objects', () => {
-            expect(isNullOrEmpty({})).toBe(true)
-        })
-
-        it('should return false for non-empty values', () => {
-            expect(isNullOrEmpty('hello')).toBe(false)
-            expect(isNullOrEmpty([1, 2, 3])).toBe(false)
-            expect(isNullOrEmpty({ a: 1 })).toBe(false)
-        })
-    })
-
-    describe('Document Validation', () => {
-        it('should validate CPF', () => {
-            expect(isDocument('11144477735')).toBe(true)
-        })
-
-        it('should validate CNPJ', () => {
-            expect(isDocument('11222333000181')).toBe(true)
-        })
-
-        it('should reject invalid documents', () => {
-            expect(isDocument('00000000000000')).toBe(false)
-        })
-
-        it('should reject null/undefined', () => {
-            expect(isDocument(null)).toBe(false)
-            expect(isDocument(undefined)).toBe(false)
-        })
-    })
-})
+        test.each(cases)('should return %p for %s', (input, expected) => {
+            expect(isDocument(input)).toBe(expected);
+        });
+    });
+});

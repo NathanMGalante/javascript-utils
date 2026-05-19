@@ -1,130 +1,93 @@
-import { formatCpf, formatCnpj, formatDocument } from '../../formatters/document-formatter-utils.js'
-import { formatPhone, formatPhoneWithContryCode } from '../../formatters/phone-formatter-utils.js'
-import { onlyNumbers } from '../../formatters/string-formatter-utils.js'
+import { formatCnpj, formatCpf, formatDocument } from '../../formatters/document-formatter-utils.js';
+import { formatPhone, formatPhoneWithContryCode } from '../../formatters/phone-formatter-utils.js';
+import { onlyNumbers } from '../../formatters/string-formatter-utils.js';
 
 describe('Formatters', () => {
+
   describe('Document Formatters', () => {
     describe('formatCpf', () => {
-      it('should format valid CPF', () => {
-        expect(formatCpf('11144477735')).toBe('111.444.777-35')
-      })
+      const cases: [any, string, string][] = [
+        ['11144477735', '111.444.777-35', 'standard string digits'],
+        [11144477735, '111.444.777-35', 'raw numeric data type'],
+        ['111.444.777-35', '111.444.777-35', 'already formatted string input'],
+        ['00000000000', '', 'invalid identity sequence block'],
+      ];
 
-      it('should format CPF with numbers only', () => {
-        expect(formatCpf(11144477735)).toBe('111.444.777-35')
-      })
-
-      it('should return empty string for invalid CPF', () => {
-        expect(formatCpf('00000000000')).toBe('')
-      })
-
-      it('should handle formatted input', () => {
-        expect(formatCpf('111.444.777-35')).toBe('111.444.777-35')
-      })
-    })
+      test.each(cases)('should format CPF from %s (%s)', (input, expected) => {
+        expect(formatCpf(input)).toBe(expected);
+      });
+    });
 
     describe('formatCnpj', () => {
-      it('should format valid CNPJ', () => {
-        expect(formatCnpj('11222333000181')).toBe('11.222.333/0001-81')
-      })
+      const cases: [any, string, string][] = [
+        ['11222333000181', '11.222.333/0001-81', 'standard string digits'],
+        [11222333000181, '11.222.333/0001-81', 'raw numeric data type'],
+        ['11.222.333/0001-81', '11.222.333/0001-81', 'already formatted string input'],
+        ['00000000000000', '', 'invalid corporate sequence block'],
+      ];
 
-      it('should format CNPJ with numbers only', () => {
-        expect(formatCnpj(11222333000181)).toBe('11.222.333/0001-81')
-      })
-
-      it('should return empty string for invalid CNPJ', () => {
-        expect(formatCnpj('00000000000000')).toBe('')
-      })
-
-      it('should handle formatted input', () => {
-        expect(formatCnpj('11.222.333/0001-81')).toBe('11.222.333/0001-81')
-      })
-    })
+      test.each(cases)('should format CNPJ from %s (%s)', (input, expected) => {
+        expect(formatCnpj(input)).toBe(expected);
+      });
+    });
 
     describe('formatDocument', () => {
-      it('should format CPF', () => {
-        expect(formatDocument('11144477735')).toBe('111.444.777-35')
-      })
+      const cases: [any, string, string][] = [
+        ['11144477735', '111.444.777-35', 'valid CPF identification branch'],
+        ['11222333000181', '11.222.333/0001-81', 'valid CNPJ identification branch'],
+        ['00000000000000', '', 'unrecognized invalid identity layout criteria'],
+      ];
 
-      it('should format CNPJ', () => {
-        expect(formatDocument('11222333000181')).toBe('11.222.333/0001-81')
-      })
-
-      it('should return empty string for invalid document', () => {
-        expect(formatDocument('00000000000000')).toBe('')
-      })
-    })
-  })
+      test.each(cases)('should format document target from %s (%s)', (input, expected) => {
+        expect(formatDocument(input)).toBe(expected);
+      });
+    });
+  });
 
   describe('Phone Formatters', () => {
     describe('formatPhone', () => {
-      it('should format 8-digit landline', () => {
-        expect(formatPhone('12345678')).toBe('1234-5678')
-      })
+      const cases: [any, string, string][] = [
+        ['12345678', '1234-5678', '8-digit local landline layout'],
+        ['123456789', '12345-6789', '9-digit regional mobile layout'],
+        ['1112345678', '(11) 1234-5678', '10-digit standard DDD + landline'],
+        ['11912345678', '(11) 91234-5678', '11-digit standard DDD + mobile'],
+        ['+5511912345678', '(11) 91234-5678', 'stripping national country prefix token'],
+        ['123', '', 'unsupported short length boundary sequence'],
+        [null, '', 'null reference handler exception'],
+        [undefined, '', 'undefined reference handler exception'],
+      ];
 
-      it('should format 9-digit mobile', () => {
-        expect(formatPhone('123456789')).toBe('12345-6789')
-      })
-
-      it('should format 10-digit DDD + landline', () => {
-        expect(formatPhone('1112345678')).toBe('(11) 1234-5678')
-      })
-
-      it('should format 11-digit DDD + mobile', () => {
-        expect(formatPhone('11912345678')).toBe('(11) 91234-5678')
-      })
-
-      it('should remove +55 prefix', () => {
-        expect(formatPhone('+5511912345678')).toBe('(11) 91234-5678')
-      })
-
-      it('should handle null/undefined', () => {
-        expect(formatPhone(null)).toBe('')
-        expect(formatPhone(undefined)).toBe('')
-      })
-
-      it('should return empty string for unsupported lengths', () => {
-        expect(formatPhone('123')).toBe('')
-      })
-    })
+      test.each(cases)('should process structure from %s (%s)', (input, expected) => {
+        expect(formatPhone(input)).toBe(expected);
+      });
+    });
 
     describe('formatPhoneWithContryCode', () => {
-      it('should format phone with country code for mobile (13+ digits)', () => {
-        const result = formatPhoneWithContryCode('551199999999999')
-        expect(result).toMatch(/\(\d{2}\) \d \d{4}-\d{4}/)
-      })
+      const cases: [string, string, string][] = [
+        ['5511999999999', '+55 (11) 99999-9999', '13-digit country code + DDD + mobile'],
+        ['551133334444', '+55 (11) 3333-4444', '12-digit country code + DDD + landline'],
+      ];
 
-      it('should format phone with country code for landline (12 digits)', () => {
-        const result = formatPhoneWithContryCode('551133334444')
-        expect(result).toMatch(/\(\d{2}\) \d{4}-\d{4}/)
-      })
-    })
-  })
+      test.each(cases)('should build international format from %s (%s)', (input, expected) => {
+        expect(formatPhoneWithContryCode(input)).toBe(expected);
+      });
+    });
+  });
 
   describe('String Formatters', () => {
     describe('onlyNumbers', () => {
-      it('should extract only numbers from string', () => {
-        expect(onlyNumbers('123abc456')).toBe('123456')
-      })
+      const cases: [any, string, string][] = [
+        ['123abc456', '123456', 'alphanumeric noise mix separation'],
+        ['111.444.777-35', '11144477735', 'deconstructing structured CPF tokens'],
+        ['(11) 9 1234-5678', '11912345678', 'deconstructing fully masked phone blocks'],
+        ['123456', '123456', 'clean string stream preservation'],
+        [123456, '123456', 'numerical representation type evaluation'],
+        ['abcdef', '', 'complete missing number return state bounds'],
+      ];
 
-      it('should handle formatted CPF', () => {
-        expect(onlyNumbers('111.444.777-35')).toBe('11144477735')
-      })
-
-      it('should handle phone with special chars', () => {
-        expect(onlyNumbers('(11) 9 1234-5678')).toBe('11912345678')
-      })
-
-      it('should handle numbers only', () => {
-        expect(onlyNumbers('123456')).toBe('123456')
-      })
-
-      it('should handle numeric input', () => {
-        expect(onlyNumbers(123456)).toBe('123456')
-      })
-
-      it('should return empty string if no numbers', () => {
-        expect(onlyNumbers('abcdef')).toBe('')
-      })
-    })
-  })
-})
+      test.each(cases)('should strip characters from %s (%s)', (input, expected) => {
+        expect(onlyNumbers(input)).toBe(expected);
+      });
+    });
+  });
+});

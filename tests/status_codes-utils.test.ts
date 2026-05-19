@@ -1,89 +1,105 @@
-import statusCodes from '../status_codes-utils.js'
+import statusCodes from '../status_codes-utils.js';
 
 describe('status_codes-utils', () => {
-  describe('Information responses (1xx)', () => {
-    it('should have CONTINUE status code', () => {
-      expect(statusCodes.CONTINUE).toBe(100)
-    })
 
-    it('should have SWITCHING_PROTOCOLS status code', () => {
-      expect(statusCodes.SWITCHING_PROTOCOLS).toBe(101)
-    })
-  })
+  // 1. Automated batch testing using a key/value matrix
+  describe('HTTP Status Codes Definitions', () => {
+    const expectedCodes: [string, number][] = [
+      // 1xx: Informational
+      ['CONTINUE', 100],
+      ['SWITCHING_PROTOCOLS', 101],
+      ['PROCESSING', 102],
+      ['EARLY_HINTS', 103],
 
-  describe('Success responses (2xx)', () => {
-    it('should have OK status code', () => {
-      expect(statusCodes.OK).toBe(200)
-    })
+      // 2xx: Success
+      ['OK', 200],
+      ['CREATED', 201],
+      ['ACCEPTED', 202],
+      ['NON_AUTHORITATIVE_INFORMATION', 203],
+      ['NO_CONTENT', 204],
+      ['RESET_CONTENT', 205],
+      ['PARTIAL_CONTENT', 206],
+      ['MULTI_STATUS', 207],
+      ['ALREADY_REPORTED', 208],
+      ['IM_USED', 226],
 
-    it('should have CREATED status code', () => {
-      expect(statusCodes.CREATED).toBe(201)
-    })
+      // 3xx: Redirection
+      ['MULTIPLE_CHOICES', 300],
+      ['MOVED_PERMANENTLY', 301],
+      ['FOUND', 302],
+      ['SEE_OTHER', 303],
+      ['NOT_MODIFIED', 304],
+      ['USE_PROXY', 305],
+      ['TEMPORARY_REDIRECT', 307],
+      ['PERMANENT_REDIRECT', 308],
 
-    it('should have NO_CONTENT status code', () => {
-      expect(statusCodes.NO_CONTENT).toBe(204)
-    })
-  })
+      // 4xx: Client Error
+      ['BAD_REQUEST', 400],
+      ['UNAUTHORIZED', 401],
+      ['PAYMENT_REQUIRED', 402],
+      ['FORBIDDEN', 403],
+      ['NOT_FOUND', 404],
+      ['METHOD_NOT_ALLOWED', 405],
+      ['NOT_ACCEPTABLE', 406],
+      ['PROXY_AUTHENTICATION_REQUIRED', 407],
+      ['REQUEST_TIMEOUT', 408],
+      ['CONFLICT', 409],
+      ['GONE', 410],
+      ['LENGTH_REQUIRED', 411],
+      ['PRECONDITION_FAILED', 412],
+      ['PAYLOAD_TOO_LARGE', 413],
+      ['URI_TOO_LONG', 414],
+      ['UNSUPPORTED_MEDIA_TYPE', 415],
+      ['RANGE_NOT_SATISFIABLE', 416],
+      ['EXPECTATION_FAILED', 417],
+      ['IM_A_TEAPOT', 418],
+      ['MISDIRECTED_REQUEST', 421],
+      ['UNPROCESSABLE_ENTITY', 422],
+      ['LOCKED', 423],
+      ['FAILED_DEPENDENCY', 424],
+      ['TOO_EARLY', 425],
+      ['UPGRADE_REQUIRED', 426],
+      ['PRECONDITION_REQUIRED', 428],
+      ['TOO_MANY_REQUESTS', 429],
+      ['REQUEST_HEADER_FIELDS_TOO_LARGE', 431],
+      ['UNAVAILABLE_FOR_LEGAL_REASONS', 451],
 
-  describe('Redirection responses (3xx)', () => {
-    it('should have MOVED_PERMANENTLY status code', () => {
-      expect(statusCodes.MOVED_PERMANENTLY).toBe(301)
-    })
+      // 5xx: Server Error
+      ['INTERNAL_SERVER_ERROR', 500],
+      ['NOT_IMPLEMENTED', 501],
+      ['BAD_GATEWAY', 502],
+      ['SERVICE_UNAVAILABLE', 503],
+      ['GATEWAY_TIMEOUT', 504],
+      ['HTTP_VERSION_NOT_SUPPORTED', 505],
+      ['VARIANT_ALSO_NEGOTIATES', 506],
+      ['INSUFFICIENT_STORAGE', 507],
+      ['LOOP_DETECTED', 508],
+      ['BANDWIDTH_LIMIT_EXCEEDED', 509],
+      ['NOT_EXTENDED', 510],
+      ['NETWORK_AUTHENTICATION_REQUIRED', 511],
+    ];
 
-    it('should have FOUND status code', () => {
-      expect(statusCodes.FOUND).toBe(302)
-    })
-  })
+    test.each(expectedCodes)('should have statusCodes.%s matching %i', (key, val) => {
+      expect(statusCodes[key as keyof typeof statusCodes]).toBe(val);
+    });
 
-  describe('Client error responses (4xx)', () => {
-    it('should have BAD_REQUEST status code', () => {
-      expect(statusCodes.BAD_REQUEST).toBe(400)
-    })
+    it('should not contain any unexpected status codes', () => {
+      const objectKeys = Object.keys(statusCodes);
+      expect(objectKeys.length).toBe(expectedCodes.length);
+    });
+  });
 
-    it('should have UNAUTHORIZED status code', () => {
-      expect(statusCodes.UNAUTHORIZED).toBe(401)
-    })
+  // 2. Structural integrity tests of the object
+  describe('Object Integrity', () => {
+    it('should be a frozen object to prevent modifications', () => {
+      expect(Object.isFrozen(statusCodes)).toBe(true);
+    });
 
-    it('should have FORBIDDEN status code', () => {
-      expect(statusCodes.FORBIDDEN).toBe(403)
-    })
-
-    it('should have NOT_FOUND status code', () => {
-      expect(statusCodes.NOT_FOUND).toBe(404)
-    })
-
-    it('should have REQUEST_TIMEOUT status code', () => {
-      expect(statusCodes.REQUEST_TIMEOUT).toBe(408)
-    })
-
-    it('should have TOO_MANY_REQUESTS status code', () => {
-      expect(statusCodes.TOO_MANY_REQUESTS).toBe(429)
-    })
-  })
-
-  describe('Server error responses (5xx)', () => {
-    it('should have INTERNAL_SERVER_ERROR status code', () => {
-      expect(statusCodes.INTERNAL_SERVER_ERROR).toBe(500)
-    })
-
-    it('should have NOT_IMPLEMENTED status code', () => {
-      expect(statusCodes.NOT_IMPLEMENTED).toBe(501)
-    })
-
-    it('should have BAD_GATEWAY status code', () => {
-      expect(statusCodes.BAD_GATEWAY).toBe(502)
-    })
-
-    it('should have SERVICE_UNAVAILABLE status code', () => {
-      expect(statusCodes.SERVICE_UNAVAILABLE).toBe(503)
-    })
-
-    it('should have GATEWAY_TIMEOUT status code', () => {
-      expect(statusCodes.GATEWAY_TIMEOUT).toBe(504)
-    })
-  })
-
-  it('should be frozen object', () => {
-    expect(Object.isFrozen(statusCodes)).toBe(true)
-  })
-})
+    it('should have only numeric values', () => {
+      // Scans the entire object ensuring no value was mistyped as a string or undefined
+      Object.values(statusCodes).forEach((value) => {
+        expect(typeof value).toBe('number');
+      });
+    });
+  });
+});

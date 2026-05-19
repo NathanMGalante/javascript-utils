@@ -1,14 +1,18 @@
 export default {
-  testEnvironment: 'node',
+  testEnvironment: 'jsdom', // <- aqui
+  extensionsToTreatAsEsm: ['.ts'],
   moduleNameMapper: {
     '^(\\.{1,2}/.*)\\.js$': '$1',
   },
-  testMatch: ['**/tests/**/*.test.js'],
-  collectCoverageFrom: ['**/*.js', '!node_modules/**', '!tests/**'],
-  transform: {},
-  globals: {
-    'ts-jest': {
-      useESM: true,
-    },
+  testMatch: ['**/tests/**/*.test.(js|ts)'],
+  collectCoverageFrom: [
+    '**/*.ts',
+    '!**/*.d.ts',
+    '!node_modules/**',
+    '!tests/**',
+    '!jest.config.js'
+  ],
+  transform: {
+    '^.+\\.tsx?$': ['ts-jest', { useESM: true }],
   },
-}
+};
