@@ -1,205 +1,102 @@
-# @nathanmgalante/n-js-utils
+@nathanmgalante/n-js-utils
+A lightweight and comprehensive JavaScript utility library featuring essential tools for Brazilian document validation, file handling, system detection, timers, and more. Designed for modern web applications.
 
-[![npm version](https://badge.fury.io/js/%40nathanmgalante%2Fn-js-utils.svg)](https://badge.fury.io/js/@nathanmgalante/n-js-utils)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
-A lightweight and comprehensive JavaScript utility library with essential functions for file handling, Brazilian document validation, formatters, timers, and more.
-
-## 📦 Installation
-
-```bash
+📦 Installation
+Bash
 npm install @nathanmgalante/n-js-utils
-```
+🚀 Quick Start
+JavaScript
+import { isCpf, formatCpf, debounce, HTTP_STATUS_CODES } from '@nathanmgalante/n-js-utils';
 
-## 🚀 Quick Start
-
-```javascript
-import { 
-  isCpf, 
-  formatCpf, 
-  debounce, 
-  delay, 
-  HTTP_STATUS_CODES 
-} from '@nathanmgalante/n-js-utils';
-
-// Validate Brazilian CPF
+// Brazilian Document Handling
 if (isCpf('123.456.789-09')) {
   console.log('Valid CPF!');
 }
 
-// Format CPF
-console.log(formatCpf('12345678909')); // '123.456.789-09'
-
-// Debounce function calls
+// Optimization
 const debouncedSearch = debounce(searchFunction, 300);
 
-// HTTP Status Codes
-console.log(HTTP_STATUS_CODES.OK); // 200
-```
+// Status Codes
+if (response.status === HTTP_STATUS_CODES.OK) {
+  // ...
+}
+📚 Core Features
+🇧🇷 Document Validation & Formatting
+Reliable tools to validate and format Brazilian personal and business identifiers.
 
-## 📚 Features
+CPF & CNPJ: Support for both validation and mask formatting.
 
-### 🔍 Brazilian Document Validation
-- **CPF validation**: `isCpf()`, `formatCpf()`
-- **CNPJ validation**: `isCnpj()`, `formatCnpj()`
-- **Generic document validation**: `isDocument()`, `formatDocument()`
+Generic Documents: Smart validation that detects document type automatically.
 
-### 📞 Phone Formatting
-- **Phone formatting**: `formatPhone()`, `formatPhoneWithContryCode()`
-- **Number extraction**: `onlyNumbers()`
+⏱️ Utilities & Timing
+Flow Control: debounce to optimize event handling.
 
-### 📧 String & Email Validation
-- **Email validation**: `isEmail()`
-- **Null/empty checks**: `isNullOrEmpty()`
+Async Helpers: delay for clean promise-based timeouts.
 
-### 📁 File Handling
-- **File operations**: `ensureFileProperties()`, `assembleFile()`, `renameFile()`
-- **URL handling**: `getFileNameFromUrl()`, `fileToUrl()`
-- **MIME types**: `getMimeTypeByExtension()`
+Timer Engine: Advanced timer instance for precise countdown and interval management.
 
-### ⏱️ Timing Utilities
-- **Debounce**: `debounce()` - Delay function execution
-- **Delay**: `delay()` - Promise-based delay
-- **Timer**: `timer()` - Countdown timer utilities
-- **Duration constants**: Pre-defined time durations (ms, seconds, minutes)
+Duration Constants: Pre-defined constants (e.g., DURATION_1_MINUTE) to improve code readability.
 
-### 🌐 System Detection
-- **Device detection**: `isMobile()`, `isAndroid()`, `isIos()`
-- **Camera modes**: `FACING_MODES`
-- **Store redirection**: `redirectToStore()`
+📁 File & Media Operations
+File Processing: Utilities to validate, rename, and assemble blobs/files.
 
-### 🔄 Regex Patterns
-- **Common patterns**: `ALL_NOT_NUMBERS`, `ALL_HTML_TAGS`, `ALL_SYMBOLS`
+URL Handling: Extracts metadata from URLs and handles MIME type lookups based on file extensions.
 
-### 📊 HTTP Status Codes
-- **Complete reference**: `HTTP_STATUS_CODES` object with all standard HTTP codes
+📱 System & Environment
+Device Detection: Quickly identify platform characteristics (isMobile, isAndroid, isIos).
 
-### 🎯 Auto-completion
-- **Completer utilities**: `completer()`, `getCompleter()` for text completion
+Store Redirection: Logic to route users to the correct App/Play Store.
 
-## 📖 API Reference
+Camera Configuration: Constants for camera facing modes.
 
-### Document Validation
+⚙️ Development Helpers
+Completer: A stateful utility to track and manage completion status of background tasks or async processes.
 
-```javascript
-import { isCpf, isCnpj, isDocument, formatCpf, formatCnpj, formatDocument } from '@nathanmgalante/n-js-utils';
+Regex Patterns: Ready-to-use patterns for HTML tags, symbols, and numeric cleaning.
 
-// Validation
-isCpf('123.456.789-09');     // boolean
-isCnpj('12.345.678/0001-95'); // boolean
-isDocument('12345678909');     // boolean (CPF or CNPJ)
+HTTP Status Codes: A comprehensive dictionary of standard status codes.
 
-// Formatting
-formatCpf('12345678909');           // '123.456.789-09'
-formatCnpj('12345678000195');       // '12.345.678/0001-95'
-formatDocument('12345678909');       // '123.456.789-09'
-```
+📖 API Highlights
+Completer Utility
+Used to manage the lifecycle and status of asynchronous tasks or completion logic.
 
-### Phone Formatting
+JavaScript
+import { completer } from '@nathanmgalante/n-js-utils';
 
-```javascript
-import { formatPhone, formatPhoneWithContryCode, onlyNumbers } from '@nathanmgalante/n-js-utils';
-
-formatPhone('11987654321');                    // '(11) 98765-4321'
-formatPhoneWithContryCode('11987654321');      // '+55 (11) 98765-4321'
-onlyNumbers('(11) 98765-4321');                // '11987654321'
-```
-
-### File Operations
-
-```javascript
-import { 
-  ensureFileProperties, 
-  getFileNameFromUrl, 
-  assembleFile, 
-  fileToUrl,
-  getMimeTypeByExtension 
-} from '@nathanmgalante/n-js-utils';
-
-// File validation and processing
-ensureFileProperties(file);           // Validates file properties
-getFileNameFromUrl('http://example.com/file.jpg'); // 'file.jpg'
-assembleFile(blob, 'filename.jpg');   // Creates File object
-fileToUrl(file);                      // Creates object URL
-getMimeTypeByExtension('.jpg');       // 'image/jpeg'
-```
-
-### Timing Utilities
-
-```javascript
-import { debounce, delay, timer } from '@nathanmgalante/n-js-utils';
-import { DURATION_1_SECOND, DURATION_5_MINUTES } from '@nathanmgalante/n-js-utils';
-
-// Debounce function calls
-const debouncedFn = debounce(myFunction, 300);
-
-// Promise-based delay
-await delay(1000); // Wait 1 second
-
-// Timer utilities
-const { start, stop, reset, getTime } = timer();
-
-// Duration constants
-console.log(DURATION_1_SECOND);    // 1000
-console.log(DURATION_5_MINUTES);   // 300000
-```
-
-### System Detection
-
-```javascript
-import { isMobile, isAndroid, isIos, FACING_MODES, redirectToStore } from '@nathanmgalante/n-js-utils';
+const task = completer();
+// Manage task state (complete, reset, etc.)
+System Detection
+JavaScript
+import { isMobile, redirectToStore } from '@nathanmgalante/n-js-utils';
 
 if (isMobile()) {
-  console.log('Mobile device detected');
-  
-  if (isAndroid()) {
-    redirectToStore('android');
-  } else if (isIos()) {
-    redirectToStore('ios');
-  }
+  redirectToStore(
+    'https://play.google.com/...', 
+    'https://apps.apple.com/...', 
+    'https://fallback.com'
+  );
 }
+File Operations
+JavaScript
+import { getMimeTypeByExtension, assembleFile } from '@nathanmgalante/n-js-utils';
 
-// Camera facing modes
-console.log(FACING_MODES.USER);    // 'user'
-console.log(FACING_MODES.ENVIRONMENT); // 'environment'
-```
+const type = getMimeTypeByExtension('.pdf'); // 'application/pdf'
+🧪 Testing
+The library includes a comprehensive suite of unit tests. Run them using:
 
-### HTTP Status Codes
-
-```javascript
-import { HTTP_STATUS_CODES } from '@nathanmgalante/n-js-utils';
-
-console.log(HTTP_STATUS_CODES.OK);           // 200
-console.log(HTTP_STATUS_CODES.NOT_FOUND);    // 404
-console.log(HTTP_STATUS_CODES.INTERNAL_ERROR); // 500
-```
-
-## 🧪 Testing
-
-Run the test suite:
-
-```bash
+Bash
 npm test
-```
+🤝 Contributing
+Contributions are highly welcome! Please follow the existing code style and submit a Pull Request.
 
-## 📄 License
+🔗 Links
+NPM: https://www.npmjs.com/package/@nathanmgalante/n-js-utils
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+GitHub: https://github.com/NathanMGalante/javascript-utils
 
-## 🤝 Contributing
+Issues: https://github.com/NathanMGalante/javascript-utils/issues
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+📄 License
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-## 🔗 Links
-
-- **NPM**: https://www.npmjs.com/package/@nathanmgalante/n-js-utils
-- **GitHub**: https://github.com/NathanMGalante/javascript-utils
-- **Issues**: https://github.com/NathanMGalante/javascript-utils/issues
-
-## 📊 Package Info
-
-- **Version**: 1.0.0
-- **License**: MIT
-- **Author**: Nathan Moreno Galante
-- **Type**: ES Module
-- **Name**: @nathanmgalante/n-js-utils
+Developed by Nathan Moreno Galante
