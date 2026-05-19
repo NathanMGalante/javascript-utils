@@ -1,14 +1,14 @@
-import mime from 'mime-types';
+import mime from 'mime';
 
 /**
  * Interface representing a file-like object with custom properties used across the system.
  */
 export interface CustomFile extends Partial<File> {
-  url?: string;
-  name?: string;
-  type?: string;
-  lastModifiedDate?: Date;
-  [key: string]: any; // Allows custom properties dynamically attached by the system
+    url?: string;
+    name?: string;
+    type?: string;
+    lastModifiedDate?: Date;
+    [key: string]: any; // Allows custom properties dynamically attached by the system
 }
 
 /**
@@ -18,10 +18,10 @@ export interface CustomFile extends Partial<File> {
  * @returns The processed file with guaranteed properties.
  */
 export const ensureFileProperties = <T extends CustomFile>(file: T): T => {
-  file.url ??= fileToUrl(file as any);
-  file.type ??= getMimeTypeByExtension(file.url) || undefined;
-  file.name ??= getFileNameFromUrl(file.url);
-  return file;
+    file.url ??= fileToUrl(file as any);
+    file.type ??= getMimeTypeByExtension(file.url) || undefined;
+    file.name ??= getFileNameFromUrl(file.url);
+    return file;
 };
 
 /**
@@ -31,7 +31,7 @@ export const ensureFileProperties = <T extends CustomFile>(file: T): T => {
  * @returns The filename extracted from the last URL segment.
  */
 export const getFileNameFromUrl = (url: string): string => {
-  return url.split('/').at(-1) || '';
+    return url.split('/').at(-1) || '';
 };
 
 /**
@@ -42,46 +42,46 @@ export const getFileNameFromUrl = (url: string): string => {
  * @returns A promise that resolves to a standardized File/Object or null.
  */
 export const assembleFile = async (file: string | File | CustomFile | null | undefined): Promise<CustomFile | null> => {
-  if (!file) return null;
+    if (!file) return null;
 
-  if (file instanceof File) return ensureFileProperties(file);
+    if (file instanceof File) return ensureFileProperties(file);
 
-  if (typeof file === 'string') {
-    if (isBase64(file)) {
-      const blob = await getBase64FromFile(file as any);
-      return ensureFileProperties(blob as any);
+    if (typeof file === 'string') {
+        if (isBase64(file)) {
+            const blob = await getBase64FromFile(file as any);
+            return ensureFileProperties(blob as any);
+        }
+        if (file.startsWith('http')) {
+            const url = file;
+            try {
+                return ensureFileProperties(await urlToFile(url, getFileNameFromUrl(url)));
+            } catch (e) {
+                return ensureFileProperties({ url });
+            }
+        }
     }
-    if (file.startsWith('http')) {
-      const url = file;
-      try {
-        return ensureFileProperties(await urlToFile(url, getFileNameFromUrl(url)));
-      } catch (e) {
-        return ensureFileProperties({ url });
-      }
-    }
-  }
 
-  if (typeof file === 'object') {
-    const ensuredFile = ensureFileProperties({ ...file });
-    const base64 = getBase64FromFileObj(ensuredFile);
-    if (base64) {
-      return ensureFileProperties(
-        assembleFileWithTypeFromBase64(
-          base64,
-          ensuredFile.name || 'file',
-          ensuredFile.type
-        )
-      );
+    if (typeof file === 'object') {
+        const ensuredFile = ensureFileProperties({ ...file });
+        const base64 = getBase64FromFileObj(ensuredFile);
+        if (base64) {
+            return ensureFileProperties(
+                assembleFileWithTypeFromBase64(
+                    base64,
+                    ensuredFile.name || 'file',
+                    ensuredFile.type
+                )
+            );
+        }
+        try {
+            return ensureFileProperties(
+                await urlToFile(ensuredFile.url || '', ensuredFile.name || 'file')
+            );
+        } catch (e) {
+            return ensuredFile;
+        }
     }
-    try {
-      return ensureFileProperties(
-        await urlToFile(ensuredFile.url || '', ensuredFile.name || 'file')
-      );
-    } catch (e) {
-      return ensuredFile;
-    }
-  }
-  return null;
+    return null;
 };
 
 /**
@@ -90,8 +90,8 @@ export const assembleFile = async (file: string | File | CustomFile | null | und
  * @param extension - The file extension or path.
  * @returns The MIME type string or false if not found.
  */
-export const getMimeTypeByExtension = (extension: string): string | false => {
-  return mime.lookup(extension);
+export const getMimeTypeByExtension = (extension: string): string => {
+    return mime.getType(extension) ?? '';
 };
 
 /**
@@ -101,7 +101,7 @@ export const getMimeTypeByExtension = (extension: string): string | false => {
  * @returns The generated object URL.
  */
 export const fileToUrl = (file: File | Blob): string => {
-  return URL.createObjectURL(file);
+    return URL.createObjectURL(file);
 };
 
 /**
@@ -112,7 +112,7 @@ export const fileToUrl = (file: File | Blob): string => {
  * @returns A new File instance with the updated name.
  */
 export const renameFile = (file: File, fileName: string): File => {
-  return new File([file], fileName, { type: file.type });
+    return new File([file], fileName, { type: file.type });
 };
 
 /**
@@ -123,7 +123,7 @@ export const renameFile = (file: File, fileName: string): File => {
  * @returns A Promise that resolves to a File instance.
  */
 export const urlToFile = async (url: string, filename: string): Promise<File> => {
-  return assembleFileFromBase64(await getBase64FromUrl(url), filename);
+    return assembleFileFromBase64(await getBase64FromUrl(url), filename);
 };
 
 /**
@@ -134,9 +134,9 @@ export const urlToFile = async (url: string, filename: string): Promise<File> =>
  * @returns The decorated blob (emulating a File object).
  */
 export const blobToFile = (blob: Blob & CustomFile, fileName: string): Blob => {
-  blob.lastModifiedDate = new Date();
-  blob.name = fileName;
-  return blob;
+    blob.lastModifiedDate = new Date();
+    blob.name = fileName;
+    return blob;
 };
 
 /**
@@ -146,8 +146,8 @@ export const blobToFile = (blob: Blob & CustomFile, fileName: string): Blob => {
  * @returns The found Base64 string or null.
  */
 export const getBase64FromFileObj = (obj: Record<string, any> | null | undefined): string | null => {
-  if (!obj || typeof obj !== 'object') return null;
-  return Object.values(obj).find((val): val is string => typeof val === 'string' && isBase64(val)) || null;
+    if (!obj || typeof obj !== 'object') return null;
+    return Object.values(obj).find((val): val is string => typeof val === 'string' && isBase64(val)) || null;
 };
 
 /**
@@ -157,12 +157,12 @@ export const getBase64FromFileObj = (obj: Record<string, any> | null | undefined
  * @returns True if valid base64, false otherwise.
  */
 export const isBase64 = (str: unknown): boolean => {
-  if (typeof str !== 'string' || str.startsWith('http')) return false;
-  const base64Regex = /^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)?$/;
-  const dataUrlRegex = /^data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+)?;base64,([A-Za-z0-9+/=\s]+)$/;
-  const cleanStr = str.replace(/\s/g, '');
-  if (dataUrlRegex.test(cleanStr)) return true;
-  return base64Regex.test(cleanStr);
+    if (typeof str !== 'string' || str.startsWith('http')) return false;
+    const base64Regex = /^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)?$/;
+    const dataUrlRegex = /^data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+)?;base64,([A-Za-z0-9+/=\s]+)$/;
+    const cleanStr = str.replace(/\s/g, '');
+    if (dataUrlRegex.test(cleanStr)) return true;
+    return base64Regex.test(cleanStr);
 };
 
 /**
@@ -173,7 +173,7 @@ export const isBase64 = (str: unknown): boolean => {
  * @returns The generated Object URL.
  */
 export const assembleUrlFromBase64 = (dataUrl: string, filename: string): string => {
-  return fileToUrl(assembleFileFromBase64(dataUrl, filename));
+    return fileToUrl(assembleFileFromBase64(dataUrl, filename));
 };
 
 /**
@@ -185,12 +185,12 @@ export const assembleUrlFromBase64 = (dataUrl: string, filename: string): string
  * @returns A standard File instance.
  */
 export const assembleFileWithTypeFromBase64 = (base64: string, filename: string, type?: string): File => {
-  if (!base64.includes(',')) {
-    const mimeType = type ?? (getMimeTypeByExtension(filename) || 'application/octet-stream');
-    const base64WithType = mergeMimeTypeWithBase64(mimeType, base64);
-    return assembleFileFromBase64(base64WithType, filename);
-  }
-  return assembleFileFromBase64(base64, filename);
+    if (!base64.includes(',')) {
+        const mimeType = type ?? (getMimeTypeByExtension(filename) || 'application/octet-stream');
+        const base64WithType = mergeMimeTypeWithBase64(mimeType, base64);
+        return assembleFileFromBase64(base64WithType, filename);
+    }
+    return assembleFileFromBase64(base64, filename);
 };
 
 /**
@@ -201,18 +201,18 @@ export const assembleFileWithTypeFromBase64 = (base64: string, filename: string,
  * @returns A standard File instance.
  */
 export const assembleFileFromBase64 = (base64Data: string, filename: string): File => {
-  const [mimeType, base64] = base64Data.split(',');
-  const match = mimeType.match(/:(.*?);/);
-  const type = match ? match[1] : 'application/octet-stream';
-  const decodedData = atob(base64);
-  const data = new Uint8Array(decodedData.length);
+    const [mimeType, base64] = base64Data.split(',');
+    const match = mimeType.match(/:(.*?);/);
+    const type = match ? match[1] : 'application/octet-stream';
+    const decodedData = atob(base64);
+    const data = new Uint8Array(decodedData.length);
 
-  let index = decodedData.length;
-  while (index--) {
-    data[index] = decodedData.charCodeAt(index);
-  }
+    let index = decodedData.length;
+    while (index--) {
+        data[index] = decodedData.charCodeAt(index);
+    }
 
-  return new File([data], filename, { type });
+    return new File([data], filename, { type });
 };
 
 /**
@@ -222,9 +222,9 @@ export const assembleFileFromBase64 = (base64Data: string, filename: string): Fi
  * @returns The resulting Base64 Data URL.
  */
 export const getBase64FromUrl = async (url: string): Promise<string> => {
-  const response = await fetch(url);
-  const blob = await response.blob();
-  return getBase64FromFile(blob);
+    const response = await fetch(url);
+    const blob = await response.blob();
+    return getBase64FromFile(blob);
 };
 
 /**
@@ -234,7 +234,7 @@ export const getBase64FromUrl = async (url: string): Promise<string> => {
  * @returns Raw base64 string.
  */
 export const getBase64FromFileWithoutMimeType = async (file: File | Blob): Promise<string | undefined> => {
-  return ensureBase64WithoutMimeType(await getBase64FromFile(file));
+    return ensureBase64WithoutMimeType(await getBase64FromFile(file));
 };
 
 /**
@@ -244,7 +244,7 @@ export const getBase64FromFileWithoutMimeType = async (file: File | Blob): Promi
  * @returns The raw Base64 data without the MIME type header.
  */
 export const ensureBase64WithoutMimeType = (base64: string | undefined): string | undefined => {
-  return base64?.includes(',') ? base64.split(',').at(-1) : base64;
+    return base64?.includes(',') ? base64.split(',').at(-1) : base64;
 };
 
 /**
@@ -254,11 +254,11 @@ export const ensureBase64WithoutMimeType = (base64: string | undefined): string 
  * @returns A promise that resolves to the data URL string.
  */
 export const getBase64FromFile = async (file: File | Blob): Promise<string> => {
-  return new Promise((resolve) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = () => resolve(reader.result as string);
-  });
+    return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = () => resolve(reader.result as string);
+    });
 };
 
 /**
@@ -269,8 +269,8 @@ export const getBase64FromFile = async (file: File | Blob): Promise<string> => {
  * @returns The full Data URL string.
  */
 export const mergeMimeTypeWithBase64 = (mimeType: string, base64: string): string => {
-  const formattedBase64 = base64.includes(',') ? base64.split(',')[1] : base64;
-  return `data:${mimeType};base64,${formattedBase64}`;
+    const formattedBase64 = base64.includes(',') ? base64.split(',')[1] : base64;
+    return `data:${mimeType};base64,${formattedBase64}`;
 };
 
 /**
@@ -280,7 +280,7 @@ export const mergeMimeTypeWithBase64 = (mimeType: string, base64: string): strin
  * @returns Extension string.
  */
 export const getExtensionFromBase64 = (base64String: string): string => {
-  return getExtensionFromMimeType(getMimeTypeFromBase64(base64String) ?? '');
+    return getExtensionFromMimeType(getMimeTypeFromBase64(base64String) ?? '');
 };
 
 /**
@@ -290,8 +290,8 @@ export const getExtensionFromBase64 = (base64String: string): string => {
  * @returns The extracted MIME type or undefined if not found.
  */
 export const getMimeTypeFromBase64 = (base64String: string): string | undefined => {
-  const match = base64String.match(/^data:(.*?);base64,/);
-  return match ? match[1] : undefined;
+    const match = base64String.match(/^data:(.*?);base64,/);
+    return match ? match[1] : undefined;
 };
 
 /**
@@ -301,6 +301,6 @@ export const getMimeTypeFromBase64 = (base64String: string): string | undefined 
  * @returns Example: 'jpeg'.
  */
 export const getExtensionFromMimeType = (mimeType: string): string => {
-  const [, extension] = mimeType?.split('/') ?? [];
-  return extension || '';
+    const [, extension] = mimeType?.split('/') ?? [];
+    return extension || '';
 };
