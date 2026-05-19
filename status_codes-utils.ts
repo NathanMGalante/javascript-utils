@@ -1,16 +1,15 @@
 /**
  * A frozen object containing standard HTTP status codes.
  * Useful for avoiding magic numbers in API responses and error handling.
- * * Categories:
+ * 
+ * Categories:
  * - 1xx: Informational
  * - 2xx: Success
  * - 3xx: Redirection
  * - 4xx: Client Error
  * - 5xx: Server Error
- * * @readonly
- * @enum {number}
  */
-const statusCodes = Object.freeze({
+export const statusCodes = Object.freeze({
     // 1xx: Informational
     CONTINUE: 100,
     SWITCHING_PROTOCOLS: 101,
@@ -83,6 +82,12 @@ const statusCodes = Object.freeze({
     BANDWIDTH_LIMIT_EXCEEDED: 509,
     NOT_EXTENDED: 510,
     NETWORK_AUTHENTICATION_REQUIRED: 511,
-})
+} as const);
 
-export default statusCodes
+/**
+ * Type representing all valid HTTP status code numbers defined in the object.
+ * e.g., 200 | 201 | 400 | ...
+ */
+export type StatusCode = typeof statusCodes[keyof typeof statusCodes];
+
+export default statusCodes;

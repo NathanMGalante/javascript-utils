@@ -1,5 +1,5 @@
-import isCnpj from "./cnpj-validation-utils";
-import isCpf from "./cpf-validation-utils";
+import isCnpj from "./cnpj-validation-utils.js";
+import isCpf from "./cpf-validation-utils.js";
 
 /**
  * Validates whether a given string or number is a valid Brazilian document 
@@ -9,7 +9,6 @@ import isCpf from "./cpf-validation-utils";
  * * @param {string|number} value - The raw document value to be validated.
  * @returns {boolean} True if the value passes either CPF or CNPJ validation.
  */
-const isDocument = (value) => isCpf(value) || isCnpj(value)
+const isDocument = (value: string): boolean => isCpf(value) || isCnpj(value)
 
 export { isCnpj, isCpf, isDocument };
-
