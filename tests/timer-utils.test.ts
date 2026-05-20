@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
-import { timer, type TimerInstance } from '../timer-utils.js';
+import { timer, type TimerInstance } from '../src/timer-utils.js';
 
 describe('timer-utils', () => {
     // Enables fake Jest timers before each test

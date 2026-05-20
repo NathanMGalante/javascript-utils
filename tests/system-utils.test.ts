@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it } from '@jest/globals';
-import { FACING_MODES, isAndroid, isIos, isMobile, redirectToStore } from '../system-utils.js';
+import { FACING_MODES, isAndroid, isIos, isMobile, redirectToStore } from '../src/system-utils.js';
 
 describe('system-utils', () => {
   const mockUserAgent = (userAgent: string) => {

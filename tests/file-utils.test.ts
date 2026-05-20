@@ -1,4 +1,4 @@
-import { getFileNameFromUrl, renameFile } from '../file-utils.js';
+import { getFileNameFromUrl, renameFile } from '../src/file-utils.js';
 
 describe('file-utils', () => {
 

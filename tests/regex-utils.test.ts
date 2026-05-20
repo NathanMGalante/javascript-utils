@@ -1,4 +1,4 @@
-import * as regexUtils from '../regex-utils.js';
+import * as regexUtils from '../src/regex-utils.js';
 
 describe('regex-utils', () => {
 

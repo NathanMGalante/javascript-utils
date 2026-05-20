@@ -1,4 +1,4 @@
-import { isCnpj, isCpf, isDocument, isEmail, isNullOrEmpty } from "../../validations/index.js";
+import { isCnpj, isCpf, isDocument, isEmail, isNullOrEmpty } from "../../src/validations/index.js";
 
 describe('Validation Utils', () => {
 

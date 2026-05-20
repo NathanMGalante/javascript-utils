@@ -1,4 +1,4 @@
-import * as durations from '../duration-utils.js';
+import * as durations from '../src/duration-utils.js';
 
 describe('duration-utils', () => {
 

@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
-import { delay } from '../delay-utils.js';
+import { delay } from '../src/delay-utils.js';
 
 describe('delay-utils', () => {
   beforeEach(() => {

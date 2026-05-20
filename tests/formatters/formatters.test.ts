@@ -1,6 +1,6 @@
-import { formatCnpj, formatCpf, formatDocument } from '../../formatters/document-formatter-utils.js';
-import { formatPhone, formatPhoneWithContryCode } from '../../formatters/phone-formatter-utils.js';
-import { onlyNumbers } from '../../formatters/string-formatter-utils.js';
+import { formatCnpj, formatCpf, formatDocument } from '../../src/formatters/document-formatter-utils.js';
+import { formatPhone, formatPhoneWithContryCode } from '../../src/formatters/phone-formatter-utils.js';
+import { onlyNumbers } from '../../src/formatters/string-formatter-utils.js';
 
 describe('Formatters', () => {
 

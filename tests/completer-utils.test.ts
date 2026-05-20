@@ -1,4 +1,4 @@
-import { completer, getCompleter } from '../completer-utils.js';
+import { completer, getCompleter } from '../src/completer-utils.js';
 
 describe('completer-utils', () => {
   describe('Structural & Lifecycle Blueprint', () => {

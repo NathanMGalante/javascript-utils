@@ -1,4 +1,4 @@
-import statusCodes from '../status_codes-utils.js';
+import statusCodes from '../src/status_codes-utils.js';
 
 describe('status_codes-utils', () => {
 
