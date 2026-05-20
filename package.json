@@ -1,6 +1,6 @@
 {
   "name": "@nathanmgalante/n-js-utils",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A collection of lightweight JS utilities for file handling, Brazilian document validation, and more.",
   "keywords": [
     "utils",
