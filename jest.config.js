@@ -1,5 +1,5 @@
 export default {
-  testEnvironment: 'jsdom', // <- aqui
+  testEnvironment: 'jsdom',
   extensionsToTreatAsEsm: ['.ts'],
   moduleNameMapper: {
     '^(\\.{1,2}/.*)\\.js$': '$1',

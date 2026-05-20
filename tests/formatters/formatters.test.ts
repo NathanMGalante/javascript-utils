@@ -1,6 +1,6 @@
 import { formatCnpj, formatCpf, formatDocument } from '../../src/formatters/document-formatter-utils.js';
 import { formatPhone, formatPhoneWithContryCode } from '../../src/formatters/phone-formatter-utils.js';
-import { onlyNumbers } from '../../src/formatters/string-formatter-utils.js';
+import { onlyLetters, onlyNotLetters, onlyNotNumbers, onlyNotNumbersAndLetters, onlyNumbers, onlyNumbersAndLetters } from '../../src/formatters/string-formatter-utils.js';
 
 describe('Formatters', () => {
 
@@ -87,6 +87,67 @@ describe('Formatters', () => {
 
       test.each(cases)('should strip characters from %s (%s)', (input, expected) => {
         expect(onlyNumbers(input)).toBe(expected);
+      });
+    });
+
+    describe('onlyNotNumbers', () => {
+      const cases: [any, string, string][] = [
+        ['123abc456', 'abc', 'extracting non-numeric segments'],
+        ['(11) 9999-9999', '() -', 'extracting masks and symbols'],
+        ['abc', 'abc', 'pure alphabetical preservation'],
+        [123456, '', 'stripping all digits from numeric input'],
+      ];
+
+      test.each(cases)('should keep only non-numbers from %s (%s)', (input, expected) => {
+        expect(onlyNotNumbers(input)).toBe(expected);
+      });
+    });
+
+    describe('onlyLetters', () => {
+      const cases: [any, string, string][] = [
+        ['User123', 'User', 'filtering out trailing numeric tokens'],
+        ['@nathan_galante', 'nathangalante', 'stripping symbols and underscores'],
+        ['123', '', 'empty result for purely numeric inputs'],
+      ];
+
+      test.each(cases)('should keep only letters from %s (%s)', (input, expected) => {
+        expect(onlyLetters(input)).toBe(expected);
+      });
+    });
+
+    describe('onlyNotLetters', () => {
+      const cases: [any, string, string][] = [
+        ['User123', '123', 'filtering out alphabetical segments'],
+        ['@#123', '@#123', 'preserving symbols and digits'],
+        ['abc', '', 'empty result for purely alphabetical inputs'],
+      ];
+
+      test.each(cases)('should keep only non-letters from %s (%s)', (input, expected) => {
+        expect(onlyNotLetters(input)).toBe(expected);
+      });
+    });
+
+    describe('onlyNumbersAndLetters', () => {
+      const cases: [any, string, string][] = [
+        ['@User_123!', 'User123', 'extracting clean alphanumeric identifiers'],
+        ['123-ABC_456', '123ABC456', 'stripping hyphens and underscores'],
+        ['!!!', '', 'no alphanumeric characters available'],
+      ];
+
+      test.each(cases)('should keep only alphanumeric from %s (%s)', (input, expected) => {
+        expect(onlyNumbersAndLetters(input)).toBe(expected);
+      });
+    });
+
+    describe('onlyNotNumbersAndLetters', () => {
+      const cases: [any, string, string][] = [
+        ['@User_123!', '@_!', 'extracting symbols and special characters'],
+        ['123-ABC', '-', 'extracting separator tokens'],
+        ['User123', '', 'no non-alphanumeric characters present'],
+      ];
+
+      test.each(cases)('should keep only non-alphanumeric from %s (%s)', (input, expected) => {
+        expect(onlyNotNumbersAndLetters(input)).toBe(expected);
       });
     });
   });
